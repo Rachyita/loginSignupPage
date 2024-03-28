@@ -1,5 +1,3 @@
-// backend/user.controller.js
-
 const User = require("./user.model");
 const jwt = require("jsonwebtoken");
 
@@ -21,7 +19,7 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
-    // Skip password verification for simplicity
+    
     const token = jwt.sign({ username: user.username }, "secretKey", {
       expiresIn: "1h",
     });
