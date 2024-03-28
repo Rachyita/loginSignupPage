@@ -15,14 +15,15 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username, password });
     if (!user) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
-    
-    const token = jwt.sign({ username: user.username }, "secretKey", {
-      expiresIn: "1h",
-    });
+
+    const token = jwt.sign(
+      { username: user.username, password: user.password },
+      "secretKey"
+    );
     res.json({ token });
   } catch (error) {
     res.status(500).json({ error: error.message });
